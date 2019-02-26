@@ -18,6 +18,16 @@ public final class ErrorCode {
 
     public static final int WRONG_PASSWORD = 100101;
 
-    public static final int UNKNOWN_ERROR = 900001;
+    public static final int USER_NOT_EXIST = 200101;
 
+    public static final int ALREADY_ADDED = 200102;
+
+    public static final int ALREADY_HANDLED = 200201;
+
+    public static final int INVALID_REQUEST = 200202;
+
+    public static final int IS_NOT_FRIEND = 200301;
+
+
+    public static final int UNKNOWN_ERROR = 900001;
 }
