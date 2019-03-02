@@ -60,7 +60,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         }
 
         String username = request.getParameter("username");
-        boolean result = tokenUtils.vertifyToken(username, token);
+        boolean result = tokenUtils.verifyToken(username, token);
         // 验证失败，直接将json写到response并返回
         if (!result) {
             RespObj obj = new RespObj();

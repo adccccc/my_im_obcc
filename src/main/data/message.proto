@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package com.sysu.obcc.tcp.proto;
+
+option optimize_for = SPEED;
+option java_package = "com.sysu.obcc.tcp.proto";
+option java_outer_classname = "CcPacket";
+
+message ProtoMessage {
+
+    enum MessageType {
+        UNKNOWN = 0;        // 未知保文(无效)
+        HEART_BEAT = 1;     // 心跳包
+        SINGLE_CHAT = 2;    // 聊天
+        GROUP_CHAT = 3;     // 群聊
+        FRIEND_EVENT = 4;   // 好友事件
+        GROUP_EVENT = 5;    // 群组事件
+        TOKEN_ERROR = 6;    // 重新登录
+        ACK = 7;            // 响应报文
+        ACK_INVALID = 8;    // 非法聊天响应报文
+        OTHERS = 9;         // 预留 无作用
+    }
+
+    optional MessageType type = 1 ;    // 报文类型
+    optional int32 version = 2 [default = 1];         // 协议版本
+    optional string messageId = 3;      // 报文id/响应报文id
+    optional int64 timestamp = 4;       // 服务器时间戳
+    optional string senderId = 5;       // 发送者id
+    optional string receiverId = 6;     // 接收者id
+    optional string groupId = 7;        // 群id
+    optional string token = 8;          // 验证令牌
+    optional string content = 9;        // 消息内容
+}

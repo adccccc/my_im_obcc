@@ -50,7 +50,7 @@ public class TokenUtils {
      * @param token
      * @return
      */
-    public boolean vertifyToken(String username, String token) {
+    public boolean verifyToken(String username, String token) {
         if (username == null || token == null) return false;
         String token1 = redisUtils.get(ConstantUtils.TOKEN_PREFIX + username).toString();
         if (!token1.equals(token)) {

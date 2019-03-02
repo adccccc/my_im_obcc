@@ -23,6 +23,7 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compile 'org.springframework.boot:spring-boot-starter-redis'
     compile 'org.springframework.boot:spring-boot-starter-data-redis'
-
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'redis.clients:jedis'
+    compile 'com.google.protobuf:protobuf-java', version: '3.7.0'
 }

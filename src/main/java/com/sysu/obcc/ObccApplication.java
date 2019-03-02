@@ -1,9 +1,10 @@
 package com.sysu.obcc;
 
+import com.sysu.obcc.tcp.thread.NettyServerThread;
+import com.sysu.obcc.tcp.utils.MyThreadPoolManager;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @MapperScan("com.sysu.obcc.http.dao")
@@ -16,6 +17,7 @@ public class ObccApplication {
 
         SpringApplication.run(ObccApplication.class, args);
 
+        MyThreadPoolManager.getInstance().execute(new NettyServerThread());
     }
 
 }
