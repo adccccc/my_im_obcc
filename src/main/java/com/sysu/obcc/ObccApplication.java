@@ -17,6 +17,7 @@ public class ObccApplication {
 
         SpringApplication.run(ObccApplication.class, args);
 
+        // 新线程启动Netty服务端
         MyThreadPoolManager.getInstance().execute(new NettyServerThread());
     }
 

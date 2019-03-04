@@ -30,7 +30,7 @@ public class MyThreadPoolManager<T> {
     // 单例模式
     private MyThreadPoolManager(){}
 
-    private static MyThreadPoolManager instance;
+    private static volatile MyThreadPoolManager instance;
 
     // 双重检查
     public static MyThreadPoolManager getInstance() {

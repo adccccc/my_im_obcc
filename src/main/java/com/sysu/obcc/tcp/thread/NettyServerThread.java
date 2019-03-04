@@ -6,6 +6,8 @@ package com.sysu.obcc.tcp.thread;
  * @Version 1.0
  */
 
+import com.sysu.obcc.tcp.handler.AuthHandler;
+import com.sysu.obcc.tcp.handler.ImIdleStateHandler;
 import com.sysu.obcc.tcp.proto.CustomProtobufDecoder;
 import com.sysu.obcc.tcp.proto.CustomProtobufEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -57,8 +59,11 @@ public class NettyServerThread extends Thread{
 //                            ch.pipeline().addLast(new ProtobufDecoder(CcPacket.AuthPacket.getDefaultInstance()));     // bytes --> bean
 //                            ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());      // bytes前添加length标记
 //                            ch.pipeline().addLast(new ProtobufEncoder());       // bean --> bytes (outBound是由后往前走)
+
+                            ch.pipeline().addLast("idle", new ImIdleStateHandler());    // 空闲检测
                             ch.pipeline().addLast("decoder", new CustomProtobufDecoder());  // 自定义解码器
                             ch.pipeline().addLast("encoder", new CustomProtobufEncoder());  // 自定义编码器
+                            ch.pipeline().addLast(new AuthHandler());       // 连接验证
                         }
                     });
             // 绑定到端口和启动服务器

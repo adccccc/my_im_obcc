@@ -2,6 +2,7 @@ package com.sysu.obcc.tcp.handler;
 
 import com.sysu.obcc.http.utils.TokenUtils;
 import com.sysu.obcc.tcp.proto.CcPacket;
+import com.sysu.obcc.tcp.utils.UserStatusManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,20 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     @Autowired
     TokenUtils tokenUtils;
 
-
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         boolean authResult = false;
+        CcPacket.AuthPacket authPacket = null;
         if (msg instanceof CcPacket.AuthPacket) {
-            CcPacket.AuthPacket authPacket = (CcPacket.AuthPacket) msg;
+            authPacket = (CcPacket.AuthPacket) msg;
             String userId = authPacket.getUserId();
             String token = authPacket.getToken();
             authResult = tokenUtils.verifyToken(userId, token);     // 验证token
         }
         if (authResult) {       // 验证成功
+            // 标记用户为online状态
+            UserStatusManager.getInstance().setOnline(authPacket.getUserId(), ctx.channel());
 
             ctx.pipeline().remove(this);    // 移除校验
 
