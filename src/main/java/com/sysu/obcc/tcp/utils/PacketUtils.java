@@ -6,6 +6,8 @@ package com.sysu.obcc.tcp.utils;
  * @Version 1.0
  */
 
+import com.sysu.obcc.http.po.OffLineMessage;
+import com.sysu.obcc.tcp.dto.MessageTask;
 import com.sysu.obcc.tcp.proto.CcPacket;
 
 import java.util.Date;
@@ -25,7 +27,7 @@ public class PacketUtils {
         CcPacket.AckPacket.Builder builder = CcPacket.AckPacket.newBuilder();
         builder.setAckId(messageId)
                 .setTimestamp(new Date().getTime())
-                .setContent(content);
+                .setContent("");
         return builder.build();
     }
 
@@ -36,7 +38,7 @@ public class PacketUtils {
      */
     public static CcPacket.SingleChatPacket generateSingleChat(CcPacket.SingleChatPacket packet) {
         CcPacket.SingleChatPacket.Builder builder = CcPacket.SingleChatPacket.newBuilder();
-        builder.setMessageId(packet.getMessageId())
+        builder.setMessageId(MsgIdUtils.getUUID())
                 .setVersion(packet.getVersion())
                 .setTimestamp(new Date().getTime())
                 .setSenderId(packet.getSenderId())
@@ -44,5 +46,30 @@ public class PacketUtils {
                 .setType(packet.getType())
                 .setContent(packet.getContent());
         return builder.build();
+    }
+
+    public static CcPacket.SingleChatPacket generateSingleChat(OffLineMessage message) {
+        CcPacket.SingleChatPacket.Builder builder = CcPacket.SingleChatPacket.newBuilder();
+        builder.setMessageId(message.getMessageId())
+                .setVersion(message.getVersion())
+                .setTimestamp(message.getTimestamp())
+                .setSenderId(message.getSenderId())
+                .setReceiverId(message.getReceiverId())
+                .setType(CcPacket.SingleChatPacket.MessageType.forNumber(message.getType()))
+                .setContent(message.getContent());
+        return builder.build();
+    }
+
+    /**
+     * 生成认证失败报文
+     * @param packet
+     * @return
+     */
+    public static CcPacket.AuthErrorPacket generateAuthErrorPacket(CcPacket.AuthPacket packet) {
+        return CcPacket.AuthErrorPacket.newBuilder()
+                .setAckId(packet.getMessageId())
+                .setTimestamp(new Date().getTime())
+                .setContent("Token校验失败，请重新登录！")
+                .build();
     }
 }

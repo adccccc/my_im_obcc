@@ -9,6 +9,7 @@ package com.sysu.obcc.http.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
 
 /**
@@ -17,15 +18,24 @@ import java.security.SecureRandom;
 @Component
 public class TokenUtils {
 
+    public static TokenUtils tokenUtils;
+
     @Autowired
     private RedisUtils redisUtils;
+
+    @PostConstruct
+    public void init() {
+        tokenUtils = this;
+        tokenUtils.redisUtils = this.redisUtils;
+    }
+
 
     /**
      * 生成token，过期时间为24小时
      * @param username
      * @return
      */
-    public String generateToken(String username) {
+    public static String generateToken(String username) {
         if (username == null) return null;
 
         SecureRandom random = new SecureRandom();
@@ -33,12 +43,12 @@ public class TokenUtils {
         random.nextBytes(bytes);
         String token = EncryptUtils.byteToHex(bytes);
 
-        return redisUtils.set(ConstantUtils.TOKEN_PREFIX + username, token, ConstantUtils.TOKEN_EXPIRE) ? token : null;
+        return tokenUtils.redisUtils.set(ConstantUtils.TOKEN_PREFIX + username, token, ConstantUtils.TOKEN_EXPIRE) ? token : null;
     }
 
-    public String getToken(String username) {
+    public static String getToken(String username) {
         if (username == null) return null;
-        Object token = redisUtils.get(ConstantUtils.TOKEN_PREFIX + username);
+        Object token = tokenUtils.redisUtils.get(ConstantUtils.TOKEN_PREFIX + username);
 
         return token == null ? null : token.toString();
     }
@@ -50,15 +60,16 @@ public class TokenUtils {
      * @param token
      * @return
      */
-    public boolean verifyToken(String username, String token) {
+    public static boolean verifyToken(String username, String token) {
+
         if (username == null || token == null) return false;
-        String token1 = redisUtils.get(ConstantUtils.TOKEN_PREFIX + username).toString();
-        if (!token1.equals(token)) {
-            redisUtils.deleteKeys(ConstantUtils.TOKEN_PREFIX + username);
+        String token1 = (String)tokenUtils.redisUtils.get(ConstantUtils.TOKEN_PREFIX + username);
+        if (token1 == null || !token1.equals(token)) {
+            // tokenUtils.redisUtils.deleteKeys(ConstantUtils.TOKEN_PREFIX + username);
             return false;
         } else {
             // 刷新过期时间
-            redisUtils.set(ConstantUtils.TOKEN_PREFIX + username, token, ConstantUtils.TOKEN_EXPIRE);
+            tokenUtils.redisUtils.set(ConstantUtils.TOKEN_PREFIX + username, token, ConstantUtils.TOKEN_EXPIRE);
             return true;
         }
     }
@@ -67,8 +78,8 @@ public class TokenUtils {
      * 使登录用户的token失效
      * @param username
      */
-    public void expireToken(String username) {
-        if (username != null) redisUtils.deleteKeys(ConstantUtils.TOKEN_PREFIX + username);
+    public static void expireToken(String username) {
+        if (username != null) tokenUtils.redisUtils.deleteKeys(ConstantUtils.TOKEN_PREFIX + username);
 
     }
 }

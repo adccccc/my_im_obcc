@@ -16,7 +16,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * 自定义protobuf编码器
  * 支持非指定message
  */
-@ChannelHandler.Sharable
 public class CustomProtobufEncoder extends MessageToByteEncoder<MessageLite> {
 
     /**

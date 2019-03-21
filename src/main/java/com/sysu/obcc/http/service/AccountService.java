@@ -50,7 +50,7 @@ public class AccountService {
      * @return
      */
     @Transactional(rollbackFor = {Exception.class})
-    public boolean signUp(String username, String password) {
+    public boolean signUp(String username, String password, String nickname) {
         // 用户名已存在
         if (accountDao.getUsernameCount(username) > 0) return false;
 
@@ -60,7 +60,7 @@ public class AccountService {
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUsername(username);
-        userInfo.setNickname(null);
+        userInfo.setNickname(nickname);
         userInfo.setIcon(1);
         userInfo.setRegTime(new Date().getTime());
 

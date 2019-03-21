@@ -39,6 +39,7 @@ public class FriendController {
         Map<String, Object> map = new HashMap<>();
         map.put("username", username);
         map.put("friendList", users);
+        obj.setData(map);
 
         String result = null;
         try {
@@ -61,6 +62,7 @@ public class FriendController {
             map.put("username", username);
             map.put("result", searchResult.getResult());
             map.put("friend", searchResult.isFriend());
+            obj.setData(map);
         } else {
             obj.setCode(ErrorCode.USER_NOT_EXIST);
         }

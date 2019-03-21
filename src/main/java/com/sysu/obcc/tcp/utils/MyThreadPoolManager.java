@@ -16,7 +16,7 @@ import java.util.concurrent.*;
 public class MyThreadPoolManager<T> {
 
     // CPU核数
-    private static final int CPU_COUNT = 4;
+    private static final int CPU_COUNT = 8;
 
     // 核心线程数
     private static final int CORE_POOL_SIZE = CPU_COUNT + 1;

@@ -50,8 +50,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
-    public String signUp(String username, String password) {
-        boolean flag = accountService.signUp(username, password);
+    public String signUp(String username, String password, String nickname) {
+        boolean flag = accountService.signUp(username, password, nickname);
         RespObj obj = new RespObj();
 
         if (flag) {

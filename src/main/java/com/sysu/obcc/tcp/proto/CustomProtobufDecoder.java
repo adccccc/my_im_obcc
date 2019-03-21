@@ -21,7 +21,6 @@ import java.util.List;
  * 自定义protobuf解码器
  * 支持非指定message
  */
-@ChannelHandler.Sharable
 public class CustomProtobufDecoder extends ByteToMessageDecoder {
 
     /**

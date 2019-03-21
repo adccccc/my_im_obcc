@@ -40,4 +40,8 @@ public interface SingleMessageDao {
     @Delete(" delete from `offline_single_message`" +
             " where message_id = #{messageId}")
     public void delete(String messageId);
+
+    @Delete(" delete from `offline_single_message`" +
+            " where receiver_id = #{userId}")
+    public void deleteMessages(String userId);
 }

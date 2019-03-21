@@ -1,6 +1,5 @@
 package com.sysu.obcc.http.service;
 
-import com.sysu.obcc.http.dao.FriendDao;
 import com.sysu.obcc.http.dao.FriendDaoImpl;
 import com.sysu.obcc.http.dao.UserInfoDao;
 import com.sysu.obcc.http.pojo.UserInfo;

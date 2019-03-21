@@ -6,6 +6,8 @@ package com.sysu.obcc.http.po;
  * @Version 1.0
  */
 
+import com.sysu.obcc.tcp.proto.CcPacket;
+
 /**
  * 离线报文实体
  */
@@ -34,6 +36,16 @@ public class OffLineMessage {
     private String content;
 
     public OffLineMessage() { }
+
+    public OffLineMessage(CcPacket.SingleChatPacket packet) {
+        messageId = packet.getMessageId();
+        version = packet.getVersion();
+        timestamp = packet.getTimestamp();
+        senderId = packet.getSenderId();
+        receiverId = packet.getReceiverId();
+        type = packet.getType().getNumber();
+        content = packet.getContent();
+    }
 
     public String getMessageId() {
         return messageId;

@@ -16,11 +16,11 @@ public final class ConstantUtils {
     // 登录token过期时间(s)
     public static final long TOKEN_EXPIRE = 60*60*24;
     // Tcp连接假死断开时间(s)
-    public static final int TCP_IDLE_TIME = 30;
-
+    public static final int TCP_IDLE_TIME = 60;
     // ack报文过期时间(s)
     public static final int ACK_EXPIRE = 120;
-
+    // 报文重传时间(ms)
+    public static final long TASK_TIMEOUT = 3000;
 
     public static final String TOKEN_PREFIX = "token_";
 

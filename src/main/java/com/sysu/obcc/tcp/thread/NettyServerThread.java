@@ -6,8 +6,10 @@ package com.sysu.obcc.tcp.thread;
  * @Version 1.0
  */
 
+import com.sysu.obcc.tcp.handler.AckPackageHandler;
 import com.sysu.obcc.tcp.handler.AuthHandler;
 import com.sysu.obcc.tcp.handler.ImIdleStateHandler;
+import com.sysu.obcc.tcp.handler.SingleChatPackageHandler;
 import com.sysu.obcc.tcp.proto.CustomProtobufDecoder;
 import com.sysu.obcc.tcp.proto.CustomProtobufEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -64,6 +66,8 @@ public class NettyServerThread extends Thread{
                             ch.pipeline().addLast("decoder", new CustomProtobufDecoder());  // 自定义解码器
                             ch.pipeline().addLast("encoder", new CustomProtobufEncoder());  // 自定义编码器
                             ch.pipeline().addLast(new AuthHandler());       // 连接验证
+                            ch.pipeline().addLast(new SingleChatPackageHandler());      // 好友消息处理
+                            ch.pipeline().addLast(new AckPackageHandler());     // 确认报文送达
                         }
                     });
             // 绑定到端口和启动服务器
